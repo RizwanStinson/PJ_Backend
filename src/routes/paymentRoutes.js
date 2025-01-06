@@ -1,9 +1,11 @@
 const express = require('express')
-const { payment } = require('../controllers/payment.controller')
+const {paypalPayment, stripePayment} = require('../controllers/payment.controller.js')
 const router = express.Router()
 
 // Define the payment route
-router.post('/payment-intent', payment)
+router.post('/payment-paypal', paypalPayment);
+
+router.post('/payment-stripe', stripePayment);
 
 // Correct module export
-module.exports = router
+module.exports = router;

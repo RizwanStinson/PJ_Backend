@@ -3,7 +3,6 @@ const DanceClass = require("../models/danceClass.model.js");
 const viewAllClasses = async (req, res) => {
   try {
     const classView = await DanceClass.find().select({
-      _id: 0,
       __v: 0,
     });
 
@@ -23,7 +22,6 @@ const viewSpecificClass = async (req, res) => {
   try {
     const id = req.params.id;
     const classView = await DanceClass.findById({ _id: id }).select({
-      _id: 0,
       __v: 0,
     });
 
@@ -46,6 +44,8 @@ const createNewClass = async (req, res) => {
       classDate,
       timeFrom,
       timeTo,
+      venue,
+      description,
       ticketPrice,
       ticketQuantity,
     } = req.body;
@@ -54,6 +54,8 @@ const createNewClass = async (req, res) => {
       classDate,
       timeFrom,
       timeTo,
+      venue,
+      description,
       ticketPrice,
       ticketQuantity,
     });
@@ -61,7 +63,7 @@ const createNewClass = async (req, res) => {
     const saveClass = await newClass.save();
     res.status(201).json({
       status: 201,
-      message: "Class Created Successfully!",
+      message: "class created successfully!",
     });
   } catch (error) {
     res.status(500).json({
@@ -79,23 +81,23 @@ const editExistingClass = async (req, res) => {
     if (!id) {
       return res.status(400).json({
         status: 400,
-        message: "Enter id!",
+        message: "enter id!",
       });
     } else if (!key || !value) {
       return res.status(400).json({
         status: 400,
-        message: "Enter key and Updated Data!",
+        message: "enter key and updated data!",
       });
     }
 
-    const updateBusData = await DanceClass.findOneAndUpdate(
+    const updateNewData = await DanceClass.findOneAndUpdate(
       { _id: id },
       { $set: { [key]: value } },
       { new: true }
     );
     res.status(200).json({
       status: 200,
-      message: `${key} Updated`,
+      message: `${key} updated`,
     });
   } catch (error) {
     res.status(500).json({
@@ -112,7 +114,7 @@ const deleteExistingClass = async (req, res) => {
     if (!id) {
       return res.status(400).json({
         status: 400,
-        message: "Enter id!",
+        message: "enter id!",
       });
     }
 
@@ -121,12 +123,12 @@ const deleteExistingClass = async (req, res) => {
     if (!classDeletion) {
       return res.status(404).json({
         status: 404,
-        message: "No Class found",
+        message: "no class found",
       });
     }
     res.status(200).json({
       status: 200,
-      message: "Class deleted",
+      message: "class deleted",
     });
   } catch (error) {
     res.status(500).json({
