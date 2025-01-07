@@ -16,7 +16,6 @@ const checkAdmin = async (req, res, next) => {
         return decoded;
       }
     );
-    console.log(decodedToken.email);
     if (!decodedToken) {
       return res.status(401).json({ status: 401, message: "invalid token" });
     }
@@ -24,8 +23,6 @@ const checkAdmin = async (req, res, next) => {
     // find user from the decoded token
     const user = await Admin.findOne({ email: decodedToken.email });
     const useFound = await Admin.find({ email: decodedToken.email });
-    console.log(useFound);
-    console.log("user:", user);
     if (!user) {
       return res
         .status(404)

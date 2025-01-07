@@ -3,7 +3,6 @@ const { default: mongoose } = require("mongoose");
 const newsLetterSchema = new mongoose.Schema({
   email: {
     type: String,
-    unique: true,
   },
 });
 
