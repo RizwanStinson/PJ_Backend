@@ -2,11 +2,9 @@ const Attendee = require("../models/attendees.model");
 const { emailTemp } = require("../templates/emailTemp");
 const { sendMail } = require("../utils/sendMail");
 
-
 exports.joinAttendeeList = async (req, res) => {
   try {
     const { email, contact } = req.body;
-    console.log(email);
 
     // Validate email presence
     if (!email) {
@@ -39,7 +37,6 @@ exports.getAllAttendee = async (req, res) => {
   } catch (error) {}
 };
 
-
 exports.sendMailToAttendee = async (req, res) => {
   try {
     const { sub, body } = req.body;
@@ -47,6 +44,9 @@ exports.sendMailToAttendee = async (req, res) => {
     const emails = subscibedUsers.map((user) => user.email);
     const emailString = emails.join(", ");
     sendMail(emailString, sub, body);
-    res.send("Email sent");
-  } catch (error) {}
+    res.send("email sent");
+  } catch (error) {
+    // console.log(error.message);
+    return res.status(500).json({ messgae: error.message });
+  }
 };

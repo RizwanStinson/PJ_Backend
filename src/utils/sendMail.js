@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const dotenv = require("dotenv").config();
 const { emailTemp } = require("../templates/emailTemp");
 
 const transporter = nodemailer.createTransport({
@@ -6,18 +7,17 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: "kmsaifullah24@gmail.com",
-    pass: "oqqh mbrt doht ydvk",
+    user: process.env.EMAIL_ADDRESS,
+    pass: process.env.EMAIL_PASS,
   },
 });
 
 exports.sendMail = async (toEmail, sub, body) => {
   try {
     const mail = await transporter.sendMail({
-      from: '"<maddison53@ethereal.email>',
       to: toEmail,
       subject: sub,
-      html: emailTemp(sub, body),
+      html: body,
     });
   } catch (error) {
     console.log(error.message);

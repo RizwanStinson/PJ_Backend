@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const cors = require("cors");
 const { dbConfig } = require("./db/dbConfig");
 const authRouter = require("./routes/auth.routes");
 const classRouter = require("./routes/classes.routes.js");
@@ -13,23 +14,34 @@ dotenv.config();
 const PORT = process.env.PORT || 3000;
 const app = express();
 
+const corsOptions = {
+  origin: "https://dancewithpriyajayanthi.com",
+  methods: "GET,POST,PUT,PATCH,DELETE",
+  allowedHeaders: "Content-Type,Authorization",
+};
+
 // middlewares
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors(corsOptions));
 
 // routes
 app.get("/", (req, res) => {
-  res.json({ message: "welcome to the event management api" });
+  return res.status(200).json({
+    status: 200,
+    message: "welcome to the event management api",
+  });
 });
 app.use("/auth", authRouter);
-app.use("/", classRouter);
-app.use("/api", paymentRoutes);
-app.use("/api", purchaseRoutes);
-app.use("/newsletters", newsLetterRouter);
-app.use("/attendee", attendeeRoute)
+app.use("/api/v1/classes", classRouter);
+app.use("/api/v1/payments", paymentRoutes);
+app.use("/api/v1/purchases", purchaseRoutes);
+app.use("/api/v1/newsletters", newsLetterRouter);
+app.use("/api/v1/attendees", attendeeRoute);
 
 // 404 page
 app.use("*", (req, res) => {
-  res.status(404).send("<h1>Page Not Found</h1>");
+  return res.status(404).json({ status: 404, message: "page not found" });
 });
 
 app.listen(PORT, () => {

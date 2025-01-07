@@ -18,13 +18,13 @@ const danceClassSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  venue : {
-    type : String,
-    required : true,
+  venue: {
+    type: String,
+    required: true,
   },
-  description : {
-    type : String,
-    required : true,
+  description: {
+    type: String,
+    required: true,
   },
   ticketPrice: {
     type: Number,

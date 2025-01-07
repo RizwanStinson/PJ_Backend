@@ -65,7 +65,8 @@ exports.purchaseTickets = async (req, res) => {
 
 exports.showAllTickets = async (req, res) => {
   try {
-    const tickets = await TicketPurchases.find({});
+    const { id } = req.params;
+    const tickets = await TicketPurchases.findById({ _id: id });
     return res
       .status(200)
       .json({ status: 200, message: "all tickets", data: tickets });

@@ -4,11 +4,12 @@ const {
   getAllSubscribedUsers,
   sendNewsLetter,
 } = require("../controllers/newsLetter.controller");
+const checkAdmin = require("../middlewares/protect");
 
 const router = express.Router();
 
 router.route("/join").post(joinNewsletter);
-router.route("/").get(getAllSubscribedUsers);
-router.route("/send").post(sendNewsLetter);
+router.route("/").get(checkAdmin, getAllSubscribedUsers);
+router.route("/send").post(checkAdmin, sendNewsLetter);
 
 module.exports = router;
