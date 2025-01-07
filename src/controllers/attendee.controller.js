@@ -1,4 +1,5 @@
 const Attendee = require("../models/attendees.model");
+const Ticket = require("../models/ticket.model");
 const { emailTemp } = require("../templates/emailTemp");
 const { sendMail } = require("../utils/sendMail");
 
@@ -49,4 +50,14 @@ exports.sendMailToAttendee = async (req, res) => {
     // console.log(error.message);
     return res.status(500).json({ messgae: error.message });
   }
+};
+
+exports.getAllSimilarClasses = async(req, res)=>{
+    try {
+      const id = req.body.id;
+      const getAllTicket = await Ticket.find({classId : id});
+      res.send(getAllTicket);
+    } catch (error) {
+      return res.status(500).json({ messgae: error.message });
+    }
 };

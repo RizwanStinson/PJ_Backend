@@ -1,4 +1,5 @@
 const NewsLetter = require("../models/newsLetter.model");
+const Ticket = require("../models/ticket.model");
 const { emailTemp } = require("../templates/emailTemp");
 const { sendMail } = require("../utils/sendMail");
 
@@ -108,5 +109,20 @@ exports.sendNewsLetter = async (req, res) => {
     const emailString = emails.join(", ");
     sendMail(emailString, sub, body);
     res.send("Email sent");
-  } catch (error) {}
+  } catch (error) {
+    return res.status(500).json({ messgae: error.message });
+  }
 };
+
+exports.sendMailBasedOnSpecificClass = async (req, res) =>{
+  try {
+    const { classId, sub, body } = req.body;
+      const getAllReleventTickets = await Ticket.find({classId});
+      const emails = getAllReleventTickets.map((user) => user.email);
+      const emailString = emails.join(", ");
+    sendMail(emailString, sub, body);
+    res.send("Email sent");
+  } catch (error) {
+    return res.status(500).json({ messgae: error.message });
+  }
+}
